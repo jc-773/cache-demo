@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class RedisService {
-    
+
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
@@ -17,10 +17,14 @@ public class RedisService {
         redisTemplate.opsForValue().set(key, value);
     }
 
-   public Map<String, Object> getData(String key) {
+    public String getData(String key) {
+        return redisTemplate.opsForValue().get(key);
+    }
+
+    public Map<String, Object> getDataMap(String key) {
         Map<String, Object> result = new HashMap<>();
-        String value = redisTemplate.opsForValue().get(key); 
-        result.put(key, value); 
-        return result; 
+        String value = redisTemplate.opsForValue().get(key);
+        result.put(key, value);
+        return result;
     }
 }

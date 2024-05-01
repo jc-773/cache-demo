@@ -17,14 +17,18 @@ public class BasicController {
 
 
     @RequestMapping(value = "cache/demo", method=RequestMethod.GET)
-    public Map<String, Object> webServiceCall(@RequestParam String id) throws InterruptedException {
-        Map<String, Object> cacheMap = redisService.getData(id);
+    public String webServiceCall(@RequestParam String id) throws InterruptedException {
+       String data = redisService.getData(id);
 
-        if(cacheMap.get(id) == null) {
+        if(isNullOrEmpty(data)) {
             //make expensive ws call
             Thread.sleep(Duration.ofSeconds(10));
             redisService.saveData(id, "someData");
         }
        return redisService.getData(id);
     }   
+
+    public static boolean isNullOrEmpty(String a) {
+        return a == null || a.isEmpty() || a.isBlank();
+    }
 }
