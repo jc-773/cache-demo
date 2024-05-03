@@ -21,11 +21,11 @@ public class BasicController {
        String data = redisService.getData(id);
 
         if(isNullOrEmpty(data)) {
-            //make expensive ws call
+            //mock expensive ws call that would return id
             Thread.sleep(Duration.ofSeconds(10));
             redisService.saveData(id, "someData");
         }
-       return redisService.getData(id);
+       return redisService.getData(id) + ": " + id;
     }   
 
     public static boolean isNullOrEmpty(String a) {
